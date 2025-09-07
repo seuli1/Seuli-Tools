@@ -1,0 +1,24 @@
+{
+  "name": "SeuliTools Repo",
+  "id": "com.seuli1.repo",
+  "url": "https://dein-github-username.github.io/DeinRepoName/vpm-repo/vpm.json",
+  "author": {
+    "name": "Dein Name",
+    "url": "https://github.com/dein-github-username"
+  },
+  "packages": {
+    "com.seuli1.seulitools": {
+      "versions": {
+        "1.0.0": {
+          "version": "1.0.0",
+          "description": "Meine Unity Tools für VRChat",
+          "url": "https://github.com/dein-github-username/DeinRepoName/releases/download/v1.0.0/com.seuli1.seulitools-1.0.0.zip",
+          "author": {
+            "name": "Dein Name",
+            "url": "https://github.com/dein-github-username"
+          }
+        }
+      }
+    }
+  }
+}
