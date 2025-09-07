@@ -10,13 +10,19 @@
     "com.seuli1.seulitools": {
       "versions": {
         "1.0.0": {
+          "name": "com.seuli1.seulitools",
+          "displayName": "SeuliTools",
           "version": "1.0.0",
-          "description": "Meine Unity Tools für VRChat",
+          "description": "Fish",
+          "unity": "2022.3",
+          "documentationUrl": "https://github.com/seuli1/Seuli-Tools/wiki",
+          "changelogUrl": "https://github.com/seuli1/Seuli-Tools/releases",
+          "licensesUrl": "https://github.com/seuli1/Seuli-Tools/blob/main/LICENSE",
+          "license": "MIT",
+          "keywords": ["VRChat", "Unity", "Tools"],
           "url": "https://github.com/seuli1/Seuli-Tools/releases/download/v1.0.0/com.seuli1.seulitools-1.0.0.zip",
-          "author": {
-            "name": "Seuli",
-            "url": "https://github.com/seuli1"
-          }
+          "repo": "https://seuli1.github.io/Seuli-Tools/vpm-repo/vpm.json",
+          "zipSHA256": "56654c6928748d8378d4005e9fbfe3d80dd3db96db68ebf5bee125ee47da575d"
         }
       }
     }
