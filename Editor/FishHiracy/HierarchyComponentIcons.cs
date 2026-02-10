@@ -1,57 +1,77 @@
 using UnityEngine;
 using UnityEditor;
+using System.Collections.Generic;
 
-public static class HierarchyComponentIcons
+namespace Seulitools
 {
-    public static void DrawComponents(GameObject obj, ref float xOffset, Rect selectionRect)
+    public static class HierarchyComponentIcons
     {
-        Component[] components = obj.GetComponents<Component>();
+        private static readonly Dictionary<System.Type, Texture2D> iconCache = new Dictionary<System.Type, Texture2D>();
+        private static readonly GUIContent tempContent = new GUIContent();
+        private static readonly Color disabledTint = new Color(1f, 1f, 1f, 0.4f);
 
-        for (int i = components.Length - 1; i >= 0; i--)
+        public static void DrawComponents(GameObject obj, ref float xOffset, Rect selectionRect)
         {
-            Component comp = components[i];
-            if (comp == null || comp is Transform) continue;
+            Component[] components = obj.GetComponents<Component>();
 
-            Texture2D icon = AssetPreview.GetMiniThumbnail(comp);
-            if (icon == null) continue;
-
-            bool isToggleable = comp is Behaviour || comp is Collider;
-            bool enabledState = true;
-
-            if (comp is Behaviour b) enabledState = b.enabled;
-            else if (comp is Collider c) enabledState = c.enabled;
-
-            Rect iconRect = new Rect(xOffset - 16f, selectionRect.y, 16, 16);
-            string tooltip = comp.GetType().Name;
-
-            if (comp is SkinnedMeshRenderer smr)
+            for (int i = components.Length - 1; i >= 0; i--)
             {
-                tooltip += $"\nVerts: {smr.sharedMesh?.vertexCount ?? 0}, Mats: {smr.sharedMaterials.Length}";
-            }
+                Component comp = components[i];
+                if (comp == null || comp is Transform) continue;
 
-            GUIContent content = new GUIContent(icon, tooltip);
+                Texture2D icon = GetComponentIcon(comp);
+                if (icon == null) continue;
 
-            if (isToggleable)
-            {
-                GUI.color = enabledState ? Color.white : new Color(1f, 1f, 1f, 0.4f);
-                bool newState = GUI.Toggle(iconRect, enabledState, content, GUIStyle.none);
-                GUI.color = Color.white;
+                bool isToggleable = comp is Behaviour || comp is Collider;
+                bool enabledState = true;
 
-                if (newState != enabledState)
+                if (comp is Behaviour b) enabledState = b.enabled;
+                else if (comp is Collider c) enabledState = c.enabled;
+
+                Rect iconRect = new Rect(xOffset - 16f, selectionRect.y, 16, 16);
+                string tooltip = comp.GetType().Name;
+
+                if (comp is SkinnedMeshRenderer smr)
                 {
-                    Undo.RecordObject(comp, "Toggle Component");
-                    if (comp is Behaviour b2) b2.enabled = newState;
-                    else if (comp is Collider c2) c2.enabled = newState;
-                    EditorUtility.SetDirty(comp);
+                    tooltip += $"\nVerts: {smr.sharedMesh?.vertexCount ?? 0}, Mats: {smr.sharedMaterials.Length}";
                 }
-            }
-            else
-            {
-                GUI.Label(iconRect, content);
-            }
 
-            HierarchyTooltip.DrawTooltip(iconRect, tooltip);
-            xOffset -= 18f;
+                tempContent.image = icon;
+                tempContent.tooltip = tooltip;
+
+                if (isToggleable)
+                {
+                    GUI.color = enabledState ? Color.white : disabledTint;
+                    bool newState = GUI.Toggle(iconRect, enabledState, tempContent, GUIStyle.none);
+                    GUI.color = Color.white;
+
+                    if (newState != enabledState)
+                    {
+                        Undo.RecordObject(comp, "Toggle Component");
+                        if (comp is Behaviour b2) b2.enabled = newState;
+                        else if (comp is Collider c2) c2.enabled = newState;
+                        EditorUtility.SetDirty(comp);
+                    }
+                }
+                else
+                {
+                    GUI.Label(iconRect, tempContent);
+                }
+
+                HierarchyTooltip.DrawTooltip(iconRect, tooltip);
+                xOffset -= 18f;
+            }
+        }
+
+        private static Texture2D GetComponentIcon(Component comp)
+        {
+            System.Type type = comp.GetType();
+            if (!iconCache.TryGetValue(type, out Texture2D icon))
+            {
+                icon = AssetPreview.GetMiniThumbnail(comp);
+                iconCache[type] = icon;
+            }
+            return icon;
         }
     }
 }

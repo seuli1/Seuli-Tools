@@ -22,12 +22,10 @@ namespace Seulitools
             if (state == PlayModeStateChange.EnteredEditMode)
             {
                 DiscordRPCSerializer.updateState(RpcState.EDITMODE);
-                // DiscordRPCSerializer.ResetTime();
             }
             else if (state == PlayModeStateChange.EnteredPlayMode)
             {
                 DiscordRPCSerializer.updateState(RpcState.PLAYMODE);
-                // DiscordRPCSerializer.ResetTime();
             }
         }
     }
@@ -39,7 +37,6 @@ namespace Seulitools
         public bool OnPreprocessAvatar(GameObject avatarGameObject)
         {
             DiscordRPCSerializer.updateState(RpcState.UPLOADAVATAR);
-            // DiscordRPCSerializer.ResetTime();
             return true;
         }
     }
@@ -51,7 +48,6 @@ namespace Seulitools
         public void OnPostprocessAvatar()
         {
             DiscordRPCSerializer.updateState(RpcState.EDITMODE);
-            // DiscordRPCSerializer.ResetTime();
         }
     }
 }

@@ -47,20 +47,20 @@ namespace Seulitools
         [Serializable, StructLayout(LayoutKind.Sequential)]
         public struct RichPresenceStruct
         {
-            public IntPtr state; /* max 128 bytes */
-            public IntPtr details; /* max 128 bytes */
+            public IntPtr state;
+            public IntPtr details;
             public long startTimestamp;
             public long endTimestamp;
-            public IntPtr largeImageKey; /* max 32 bytes */
-            public IntPtr largeImageText; /* max 128 bytes */
-            public IntPtr smallImageKey; /* max 32 bytes */
-            public IntPtr smallImageText; /* max 128 bytes */
-            public IntPtr partyId; /* max 128 bytes */
+            public IntPtr largeImageKey;
+            public IntPtr largeImageText;
+            public IntPtr smallImageKey;
+            public IntPtr smallImageText;
+            public IntPtr partyId;
             public int partySize;
             public int partyMax;
-            public IntPtr matchSecret; /* max 128 bytes */
-            public IntPtr joinSecret; /* max 128 bytes */
-            public IntPtr spectateSecret; /* max 128 bytes */
+            public IntPtr matchSecret;
+            public IntPtr joinSecret;
+            public IntPtr spectateSecret;
             public bool instance;
         }
 
@@ -128,26 +128,21 @@ namespace Seulitools
             private RichPresenceStruct _presence;
             private readonly List<IntPtr> _buffers = new List<IntPtr>(10);
 
-            public string state; /* max 128 bytes */
-            public string details; /* max 128 bytes */
+            public string state;
+            public string details;
             public long startTimestamp;
             public long endTimestamp;
-            public string largeImageKey; /* max 32 bytes */
-            public string largeImageText; /* max 128 bytes */
-            public string smallImageKey; /* max 32 bytes */
-            public string smallImageText; /* max 128 bytes */
-            public string partyId; /* max 128 bytes */
+            public string largeImageKey;
+            public string largeImageText;
+            public string smallImageKey;
+            public string smallImageText;
+            public string partyId;
             public int partySize;
             public int partyMax;
-            public string matchSecret; /* max 128 bytes */
-            public string joinSecret; /* max 128 bytes */
-            public string spectateSecret; /* max 128 bytes */
+            public string matchSecret;
+            public string joinSecret;
+            public string spectateSecret;
             public bool instance;
-
-            /// <summary>
-            /// Get the <see cref="RichPresenceStruct"/> reprensentation of this instance
-            /// </summary>
-            /// <returns><see cref="RichPresenceStruct"/> reprensentation of this instance</returns>
             internal RichPresenceStruct GetStruct()
             {
                 if (_buffers.Count > 0)
@@ -174,11 +169,6 @@ namespace Seulitools
                 return _presence;
             }
 
-            /// <summary>
-            /// Returns a pointer to a representation of the given string with a size of maxbytes
-            /// </summary>
-            /// <param name="input">String to convert</param>
-            /// <returns>Pointer to the UTF-8 representation of <see cref="input"/></returns>
             private IntPtr StrToPtr(string input)
             {
                 if (string.IsNullOrEmpty(input)) return IntPtr.Zero;
@@ -193,11 +183,6 @@ namespace Seulitools
                 return buffer;
             }
 
-            /// <summary>
-            /// Convert string to UTF-8 and add null termination
-            /// </summary>
-            /// <param name="toconv">string to convert</param>
-            /// <returns>UTF-8 representation of <see cref="toconv"/> with added null termination</returns>
             private static string StrToUtf8NullTerm(string toconv)
             {
                 var str = toconv.Trim();
@@ -209,9 +194,6 @@ namespace Seulitools
                 return Encoding.UTF8.GetString(Encoding.UTF8.GetBytes(str));
             }
 
-            /// <summary>
-            /// Free the allocated memory for conversion to <see cref="RichPresenceStruct"/>
-            /// </summary>
             internal void FreeMem()
             {
                 for (var i = _buffers.Count - 1; i >= 0; i--)

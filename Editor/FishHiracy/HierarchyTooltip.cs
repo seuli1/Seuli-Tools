@@ -1,11 +1,16 @@
 using UnityEngine;
 using UnityEditor;
 
-public static class HierarchyTooltip
+namespace Seulitools
 {
-    public static void DrawTooltip(Rect rect, string tooltip)
+    public static class HierarchyTooltip
     {
-        if (!string.IsNullOrEmpty(tooltip))
-            EditorGUI.LabelField(rect, new GUIContent("", tooltip));
+        public static void DrawTooltip(Rect rect, string tooltip)
+        {
+            if (!string.IsNullOrEmpty(tooltip))
+            {
+                EditorGUI.LabelField(rect, new GUIContent("", tooltip));
+            }
+        }
     }
 }

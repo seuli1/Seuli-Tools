@@ -1,21 +1,24 @@
 using UnityEngine;
 using UnityEditor;
 
-public static class HierarchyIndicators
+namespace Seulitools
 {
-    public static void DrawIndicators(GameObject obj, ref float xOffset, Rect selectionRect)
+    public static class HierarchyIndicators
     {
-        Component[] components = obj.GetComponents<Component>();
-        foreach (var comp in components)
+        public static void DrawIndicators(GameObject obj, ref float xOffset, Rect selectionRect)
         {
-            if (comp == null)
+            Component[] components = obj.GetComponents<Component>();
+            foreach (var comp in components)
             {
-                Texture2D missingIcon = EditorGUIUtility.IconContent("console.erroricon.sml").image as Texture2D;
-                if (missingIcon != null)
+                if (comp == null)
                 {
-                    Rect missingRect = new Rect(xOffset - 16f, selectionRect.y, 16, 16);
-                    GUI.Label(missingRect, missingIcon);
-                    xOffset -= 18f;
+                    Texture2D missingIcon = EditorGUIUtility.IconContent("console.erroricon.sml").image as Texture2D;
+                    if (missingIcon != null)
+                    {
+                        Rect missingRect = new Rect(xOffset - 16f, selectionRect.y, 16, 16);
+                        GUI.Label(missingRect, missingIcon);
+                        xOffset -= 18f;
+                    }
                 }
             }
         }

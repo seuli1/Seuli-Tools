@@ -8,10 +8,16 @@ namespace Seulitools
 {
     public class MissingScriptsRemover : Editor
     {
-        [MenuItem("SeuliTools/QoL/Remove Missing Scripts")]
+        [MenuItem("SeuliTools/Tools/Remove Missing Scripts", false, 110)]
         public static void RemoveMissingScripts()
         {
-            GameObject[] gameObjects = GameObject.FindObjectsOfType<GameObject>();
+            bool confirm = EditorUtility.DisplayDialog("Remove Missing Scripts", "This will remove missing scripts from all GameObjects in the scene. Continue?", "Remove", "Cancel");
+            if (!confirm)
+            {
+                return;
+            }
+
+            GameObject[] gameObjects = GameObject.FindObjectsOfType<GameObject>(true);
 
             int totalComponentCount = 0;
 
@@ -33,7 +39,7 @@ namespace Seulitools
             EditorUtility.DisplayDialog("Remove Missing Scripts", message, "OK");
         }
 
-        [MenuItem("SeuliTools/QoL/Remove Missing Scripts", true)]
+        [MenuItem("SeuliTools/Tools/Remove Missing Scripts", true, 110)]
         private static bool ValidateRemoveMissingScripts()
         {
             return true;

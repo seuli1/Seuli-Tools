@@ -1,19 +1,27 @@
 using UnityEngine;
 using UnityEditor;
 
-public static class HierarchyChildCount
+namespace Seulitools
 {
-    public static void DrawChildCount(GameObject obj, ref float xOffset, Rect selectionRect)
+    public static class HierarchyChildCount
     {
-        int childCount = obj.transform.childCount;
-        if (childCount > 0)
+        private static GUIStyle childCountStyle;
+
+        public static void DrawChildCount(GameObject obj, ref float xOffset, Rect selectionRect)
         {
-            GUIStyle style = new GUIStyle(EditorStyles.miniLabel);
-            style.normal.textColor = Color.white;
-            style.alignment = TextAnchor.MiddleCenter;
-            Rect rect = new Rect(xOffset - 24f, selectionRect.y, 24, 16);
-            GUI.Label(rect, childCount.ToString(), style);
-            xOffset -= 26f;
+            int childCount = obj.transform.childCount;
+            if (childCount > 0)
+            {
+                if (childCountStyle == null)
+                {
+                    childCountStyle = new GUIStyle(EditorStyles.miniLabel);
+                    childCountStyle.normal.textColor = Color.white;
+                    childCountStyle.alignment = TextAnchor.MiddleCenter;
+                }
+                Rect rect = new Rect(xOffset - 24f, selectionRect.y, 24, 16);
+                GUI.Label(rect, childCount.ToString(), childCountStyle);
+                xOffset -= 26f;
+            }
         }
     }
 }
